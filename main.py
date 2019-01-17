@@ -9,14 +9,17 @@ import arcade
 import os
 
 SPRITE_SCALING = 3
-
+SPRITE_SCALE = 2
+SPRITE_SCALING_LASER = 0.8
 SCREEN_WIDTH = 1600
-SCREEN_HEIGHT = 900
+SCREEN_HEIGHT = 600
 
 VIEWPORT_MARGIN = 40
 
+BULLET_SPEED = 5
 MOVEMENT_SPEED = 5
-
+JUMP_SPEED = 8
+GRAVITY = 0.5
 
 
 class Dog(arcade.Sprite):
@@ -46,6 +49,7 @@ class Cyberbot(arcade.Window):
         self.main_sound = arcade.load_sound("Sound/main_song.mp3")
         self.mute = 0
 
+        self.bullet_list = None
 
         #la list complete des sprites
         self.all_sprites_list = None
@@ -63,9 +67,18 @@ class Cyberbot(arcade.Window):
         """ Set up the game and initialize the variables. """
 
         self.all_sprites_list = arcade.SpriteList()
+        self.bloc_list = arcade.SpriteList()
+
+        for i in range(125):
+            bloc = arcade.Sprite('Image/textures/ground.png', SPRITE_SCALE)
+            bloc.center_x = i * SPRITE_SCALE * 16
+            bloc.center_y = 16
+            self.bloc_list.append(bloc)
 
         self.player = arcade.AnimatedWalkingSprite()
-
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,
+                                                             self.bloc_list,
+                                                             gravity_constant=GRAVITY)
         # Gestion des sprite au repos (joueur)
         character_scale = 2
         self.player.stand_right_textures = []
@@ -107,13 +120,14 @@ class Cyberbot(arcade.Window):
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
                                       SCREEN_WIDTH * 5 , SCREEN_HEIGHT, self.background, repeat_count_x=5)
         self.all_sprites_list.draw()
+        self.bloc_list.draw()
 
 
     def update(self, delta_time):
         """ Movement and game logic """
         self.all_sprites_list.update()
         self.all_sprites_list.update_animation()
-
+        self.physics_engine.update()
         # --- Manage Scrolling ---
 
         # Track if we need to change the viewport
@@ -124,7 +138,7 @@ class Cyberbot(arcade.Window):
                             self.view_bottom,
                             SCREEN_HEIGHT + self.view_bottom)
 
-        self.player.change_x = MOVEMENT_SPEED
+        self.player.change_x = 2.5
 
     # Song activation
         if self.mute == 0:
@@ -134,7 +148,7 @@ class Cyberbot(arcade.Window):
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
         if key == arcade.key.SPACE:
-            self.player.change_y = MOVEMENT_SPEED
+            self.player.change_y = JUMP_SPEED
             self.count_y += self.player.change_y
 
     def on_key_release(self, key, modifiers):
