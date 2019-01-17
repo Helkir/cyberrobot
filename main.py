@@ -111,7 +111,7 @@ class Cyberbot(arcade.Window):
         arcade.start_render()
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
                                       SCREEN_WIDTH * 3 , SCREEN_HEIGHT, self.background, repeat_count_x=3)
-
+        self.all_sprites_list.draw()
         self.bloc_list.draw()
 
         # arcade.draw_texture_rectangle(SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4,
