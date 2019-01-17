@@ -13,7 +13,8 @@ SPRITE_SCALE = 2
 SPRITE_SCALING_LASER = 0.8
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 600
-
+SPRITE_SCALING_LASER = 0.15
+BULLET_SPEED = 10
 VIEWPORT_MARGIN = 40
 
 BULLET_SPEED = 5
@@ -69,14 +70,19 @@ class Cyberbot(arcade.Window):
         self.count_y = 0
         self.bloc_list = None
 
+
+        self.lazer_sound = arcade.sound.load_sound("Sound/lazer.mp3")
+        self.hitmarker_sound = arcade.sound.load_sound("Sound/hitmarker.mp3")
+        
     def setup(self):
         """ Set up the game and initialize the variables. """
 
         self.all_sprites_list = arcade.SpriteList()
         self.player_sprite = arcade.SpriteList()
         self.bloc_list = arcade.SpriteList()
+        self.bullet_list = arcade.SpriteList()
 
-        for i in range(125):
+        for i in range(1500):
             bloc = arcade.Sprite('Image/textures/ground.png', SPRITE_SCALE)
             bloc.center_x = i * SPRITE_SCALE * 16
             bloc.center_y = 16
@@ -87,8 +93,6 @@ class Cyberbot(arcade.Window):
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,
                                                              self.bloc_list,
                                                              gravity_constant=GRAVITY)
-        
-        # Gestion des sprite au repos (joueur)
         character_scale = 2
         robot_scale = 0.15
         self.player.stand_right_textures = []
@@ -182,7 +186,7 @@ class Cyberbot(arcade.Window):
         self.player.texture_change_distance = 15
         self.robot.texture_change_distance = 0.5
 
-        self.player.center_x = SCREEN_WIDTH // 18
+        self.player.center_x = SCREEN_WIDTH // 8
         self.player.center_y = SCREEN_HEIGHT // 12
         self.robot.center_x = SCREEN_WIDTH // 2
         self.robot.center_y = SCREEN_HEIGHT// 5
@@ -203,12 +207,15 @@ class Cyberbot(arcade.Window):
         # This command has to happen before we start drawing
         arcade.start_render()
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
-                                      SCREEN_WIDTH * 5 , SCREEN_HEIGHT, self.background, repeat_count_x=5)
+                                      SCREEN_WIDTH * 50 , SCREEN_HEIGHT, self.background, repeat_count_x=50)
+        self.bullet_list.draw()
         self.all_sprites_list.draw()
         self.bloc_list.draw()
 
     def update(self, delta_time):
         """ Movement and game logic """
+        self.bullet_list.update()
+            
         self.all_sprites_list.update()
         self.all_sprites_list.update_animation()
         self.physics_engine.update()
@@ -235,12 +242,23 @@ class Cyberbot(arcade.Window):
         if key == arcade.key.SPACE:
             self.player.change_y = JUMP_SPEED
             self.count_y += self.player.change_y
+        if key == arcade.key.V:
+            arcade.sound.play_sound(self.lazer_sound)
+            bullet = arcade.Sprite("Image/Sprite/Laser.png", SPRITE_SCALING_LASER)
+            bullet.center_x = self.player.center_x + 150
+            bullet.center_y = self.player.center_y + 20
+            bullet.change_x = BULLET_SPEED   
 
+
+            self.bullet_list.append(bullet)
+            
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
 
         if key == arcade.key.SPACE:
             self.player.change_y = -MOVEMENT_SPEED
+        if key == arcade.key.V:
+            self.bullet.kill()
 
 
 def main():
