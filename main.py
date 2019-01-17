@@ -13,6 +13,7 @@ SPRITE_SCALE = 2
 SPRITE_SCALING_LASER = 0.8
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 600
+BLOC_SCALE = 3
 
 VIEWPORT_MARGIN = 40
 
@@ -62,6 +63,7 @@ class Cyberbot(arcade.Window):
         self.robot = None
         self.robot_sprite = None
         self.robot_laser = None
+        self.bloc = None
 
         self.physics_engine = None
         self.view_bottom = 0
@@ -76,17 +78,25 @@ class Cyberbot(arcade.Window):
         self.player_sprite = arcade.SpriteList()
         self.bloc_list = arcade.SpriteList()
 
+        self.bloc = arcade.Sprite("Image/textures/bloc.png", BLOC_SCALE)
+        self.bloc.center_x = 30 * SPRITE_SCALE * 16
+        self.bloc.center_y = 80
+        self.bloc_list.append(self.bloc)
+
         for i in range(125):
-            bloc = arcade.Sprite('Image/textures/ground.png', SPRITE_SCALE)
-            bloc.center_x = i * SPRITE_SCALE * 16
-            bloc.center_y = 16
-            self.bloc_list.append(bloc)
+            ground = arcade.Sprite('Image/textures/ground.png', SPRITE_SCALE)
+            ground.center_x = i * SPRITE_SCALE * 16
+            ground.center_y = 16
+            self.bloc_list.append(ground)
 
         self.player = arcade.AnimatedWalkingSprite()
         self.robot = arcade.AnimatedWalkingSprite()
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,
                                                              self.bloc_list,
                                                              gravity_constant=GRAVITY)
+        self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,
+                                                             self.bloc_list)
+
         
         # Gestion des sprite au repos (joueur)
         character_scale = 2
