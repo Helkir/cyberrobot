@@ -10,8 +10,8 @@ import os
 
 SPRITE_SCALING = 3
 
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 1600
+SCREEN_HEIGHT = 900
 
 MOVEMENT_SPEED = 5
 
@@ -69,6 +69,8 @@ class Cyberbot(arcade.Window):
                                                                    scale=character_scale))
         self.player.walk_right_textures.append(arcade.load_texture("Image/Sprite/Dog/chien4.png",
                                                                    scale=character_scale))
+        self.player.walk_right_textures.append(arcade.load_texture("Image/Sprite/Dog/chien5.png",
+                                                                   scale=character_scale))
         #What the fuck is that carp
         self.player.texture_change_distance = 20
 
@@ -89,7 +91,7 @@ class Cyberbot(arcade.Window):
         # This command has to happen before we start drawing
         arcade.start_render()
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
-                                      SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+                                      SCREEN_WIDTH * 3 , SCREEN_HEIGHT, self.background, repeat_count_x=3)
         self.all_sprites_list.draw()
 
 
