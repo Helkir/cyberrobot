@@ -13,11 +13,13 @@ SPRITE_SCALING = 3
 SCREEN_WIDTH = 1600
 SCREEN_HEIGHT = 900
 
+VIEWPORT_MARGIN = 40
+
 MOVEMENT_SPEED = 5
 
-class Dog(arcade.Sprite):
-  #  sprite = arcade.sprite("Image/Sprite/Dog/chien1.png")
 
+
+class Dog(arcade.Sprite):
     def update(self):
         self.center_x += self.change_x
         self.center_y += self.change_y
@@ -40,12 +42,21 @@ class Cyberbot(arcade.Window):
         # Call the parent class initializer
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Cyberbot")
 
+        #song atribute
+        self.main_sound = arcade.load_sound("Sound/s_u_n_g_way_farer.mp3")
+
+
         #la list complete des sprites
         self.all_sprites_list = None
-        self.player = None
-      #  self.player_list = None
 
-      #  self.player_sprite = None
+        #initialisation des sprites et outils pour le joueur
+        self.player = None
+        self.player_sprite = None
+
+        self.physics_engine = None
+        self.view_bottom = 0
+        self.view_left = 0
+        self.count_y = 0
 
     def setup(self):
         """ Set up the game and initialize the variables. """
@@ -54,11 +65,12 @@ class Cyberbot(arcade.Window):
 
         self.player = arcade.AnimatedWalkingSprite()
 
+        # Gestion des sprite au repos (joueur)
         character_scale = 2
         self.player.stand_right_textures = []
-        self.player.stand_right_textures.append(arcade.load_texture("Image/Sprite/Dog/chien1.png",
+        self.player.stand_right_textures.append(arcade.load_texture("Image/Sprite/Dog/Chien_stand.png",
                                                                     scale=character_scale))
-
+        # Gestion des Sprites de mouvement du joueur
         self.player.walk_right_textures = []
 
         self.player.walk_right_textures.append(arcade.load_texture("Image/Sprite/Dog/chien1.png",
@@ -72,17 +84,19 @@ class Cyberbot(arcade.Window):
         self.player.walk_right_textures.append(arcade.load_texture("Image/Sprite/Dog/chien5.png",
                                                                    scale=character_scale))
         #What the fuck is that carp
-        self.player.texture_change_distance = 20
+        self.player.texture_change_distance = 15
 
         self.player.center_x = SCREEN_HEIGHT // 2
-        self.player.center_y = SCREEN_WIDTH // 2
+        self.player.center_y = SCREEN_WIDTH // 12
 
         self.player.scale = 2
 
         self.all_sprites_list.append(self.player)
 
+        # Routage de l'image background
         self.background = arcade.load_texture("Image/Background/cyberpunk-street-files/PNG/cyberpunk-street.png")
 
+      #  arcade.play_sound(self.main_sound)
     def on_draw(self):
         """
         Render the screen.
@@ -91,37 +105,39 @@ class Cyberbot(arcade.Window):
         # This command has to happen before we start drawing
         arcade.start_render()
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
-                                      SCREEN_WIDTH * 3 , SCREEN_HEIGHT, self.background, repeat_count_x=3)
+                                      SCREEN_WIDTH * 5 , SCREEN_HEIGHT, self.background, repeat_count_x=5)
         self.all_sprites_list.draw()
 
-
-
-      #  arcade.draw_texture_rectangle(SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4,
-      #                                  SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
     def update(self, delta_time):
         """ Movement and game logic """
         self.all_sprites_list.update()
         self.all_sprites_list.update_animation()
 
+        # --- Manage Scrolling ---
+
+        # Track if we need to change the viewport
+
+        self.view_left += MOVEMENT_SPEED
+        arcade.set_viewport(self.view_left,
+                            SCREEN_WIDTH + self.view_left,
+                            self.view_bottom,
+                            SCREEN_HEIGHT + self.view_bottom)
+
+        self.player.change_x = MOVEMENT_SPEED
+        arcade.play_sound(self.main_sound)
+
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
-        if key == arcade.key.Z:
+        if key == arcade.key.SPACE:
             self.player.change_y = MOVEMENT_SPEED
-        elif key == arcade.key.S:
-            self.player.change_y = -MOVEMENT_SPEED
-        elif key == arcade.key.Q:
-            self.player.change_x = -MOVEMENT_SPEED
-        elif key == arcade.key.D:
-            self.player.change_x = MOVEMENT_SPEED
+            self.count_y += self.player.change_y
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
 
-        if key == arcade.key.Z or key == arcade.key.S:
-            self.player.change_y = 0
-        elif key == arcade.key.Q or key == arcade.key.D:
-            self.player.change_x = 0
+        if key == arcade.key.SPACE:
+            self.player.change_y = -MOVEMENT_SPEED
 def main():
     window = Cyberbot()
     window.setup()
