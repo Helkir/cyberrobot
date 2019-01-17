@@ -14,7 +14,7 @@ SPRITE_SCALING = 3
 SPRITE_SCALE = 2
 
 SCREEN_WIDTH = 1600
-SCREEN_HEIGHT = 900
+SCREEN_HEIGHT = 500
 
 # How strong the gravity is.
 GRAVITY = 0.5
@@ -112,6 +112,8 @@ class Cyberbot(arcade.Window):
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
                                       SCREEN_WIDTH * 3 , SCREEN_HEIGHT, self.background, repeat_count_x=3)
 
+        self.bloc_list.draw()
+
         # arcade.draw_texture_rectangle(SCREEN_WIDTH // 4, SCREEN_HEIGHT // 4,
         #                                  SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
@@ -142,9 +144,9 @@ class Cyberbot(arcade.Window):
 
     def generate_level(self):
         for i in range(25):
-            bloc = arcade.Sprite('Sprites/bloc.png', SPRITE_SCALE)
-            bloc.center_x = i * SPRITE_SCALE * 16
-            bloc.center_y = 16
+            bloc = arcade.Sprite('Image/texture/ground_test.png')
+            bloc.center_x = SCREEN_HEIGHT // 2
+            bloc.center_y = SCREEN_WIDTH // 2
             self.bloc_list.append(bloc)
 
 def main():
