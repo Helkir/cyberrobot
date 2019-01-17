@@ -53,6 +53,7 @@ class Cyberbot(arcade.Window):
         #initialisation des sprites et outils pour le joueur
         self.player = None
         self.player_sprite = None
+        self.player_laser = None
 
         self.physics_engine = None
         self.view_bottom = 0
@@ -63,6 +64,7 @@ class Cyberbot(arcade.Window):
         """ Set up the game and initialize the variables. """
 
         self.all_sprites_list = arcade.SpriteList()
+        self.player_sprite = arcade.SpriteList()
 
         self.player = arcade.AnimatedWalkingSprite()
 
@@ -73,6 +75,7 @@ class Cyberbot(arcade.Window):
                                                                     scale=character_scale))
         # Gestion des Sprites de mouvement du joueur
         self.player.walk_right_textures = []
+        self.player.laser_strike_texture = []
 
         self.player.walk_right_textures.append(arcade.load_texture("Image/Sprite/Dog/chien1.png",
                                                                    scale=character_scale))
@@ -84,7 +87,14 @@ class Cyberbot(arcade.Window):
                                                                    scale=character_scale))
         self.player.walk_right_textures.append(arcade.load_texture("Image/Sprite/Dog/chien5.png",
                                                                    scale=character_scale))
-        #What the fuck is that carp
+
+        self.player.laser_strike_texture.append(arcade.load_texture("Image/Sprite/Dog_laser/Laser_Dog1.png",
+                                                                    scale=character_scale))
+        self.player.laser_strike_texture.append(arcade.load_texture("Image/Sprite/Dog_laser/Laser_Dog2.png",
+                                                                    scale=character_scale))
+        self.player.laser_strike_texture.append(arcade.load_texture("Image/Sprite/Dog_laser/Laser_Dog3.png",
+                                                                    scale=character_scale))
+        # Défini la vitesse d'afficahge des sprites joueurs
         self.player.texture_change_distance = 15
 
         self.player.center_x = SCREEN_HEIGHT // 2
@@ -136,6 +146,9 @@ class Cyberbot(arcade.Window):
         if key == arcade.key.SPACE:
             self.player.change_y = MOVEMENT_SPEED
             self.count_y += self.player.change_y
+        if key == arcade.key.A:
+            self.
+
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
