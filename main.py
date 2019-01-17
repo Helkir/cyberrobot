@@ -43,7 +43,8 @@ class Cyberbot(arcade.Window):
         super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Cyberbot")
 
         #song atribute
-        self.main_sound = arcade.load_sound("Sound/s_u_n_g_way_farer.mp3")
+        self.main_sound = arcade.load_sound("Sound/main_song.mp3")
+        self.mute = 0
 
 
         #la list complete des sprites
@@ -96,7 +97,6 @@ class Cyberbot(arcade.Window):
         # Routage de l'image background
         self.background = arcade.load_texture("Image/Background/cyberpunk-street-files/PNG/cyberpunk-street.png")
 
-      #  arcade.play_sound(self.main_sound)
     def on_draw(self):
         """
         Render the screen.
@@ -125,7 +125,11 @@ class Cyberbot(arcade.Window):
                             SCREEN_HEIGHT + self.view_bottom)
 
         self.player.change_x = MOVEMENT_SPEED
-        arcade.play_sound(self.main_sound)
+
+    # Song activation
+        if self.mute == 0:
+            arcade.play_sound(self.main_sound)
+            self.mute = 1
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
