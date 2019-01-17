@@ -90,7 +90,7 @@ class Cyberbot(arcade.Window):
         
         # Gestion des sprite au repos (joueur)
         character_scale = 2
-        robot_scale = 0.25
+        robot_scale = 0.15
         self.player.stand_right_textures = []
         self.player.stand_right_textures.append(arcade.load_texture("Image/Sprite/Dog/Chien_stand.png",
                                                                     scale=character_scale))
@@ -180,11 +180,12 @@ class Cyberbot(arcade.Window):
                                                                     scale=character_scale))
         # Défini la vitesse d'afficahge des sprites joueurs
         self.player.texture_change_distance = 15
+        self.robot.texture_change_distance = 0.5
 
-        self.player.center_x = SCREEN_WIDTH // 1.5
+        self.player.center_x = SCREEN_WIDTH // 18
         self.player.center_y = SCREEN_HEIGHT // 12
-        self.robot.center_x = SCREEN_WIDTH // 20
-        self.robot.center_y = SCREEN_HEIGHT// 4
+        self.robot.center_x = SCREEN_WIDTH // 2
+        self.robot.center_y = SCREEN_HEIGHT// 5
 
         self.player.scale = 2
 
@@ -222,7 +223,7 @@ class Cyberbot(arcade.Window):
                             SCREEN_HEIGHT + self.view_bottom)
 
         self.player.change_x = 2.5
-        self.robot.change_x = 5
+        self.robot.change_x = 0.1
 
     # Song activation
         if self.mute == 0:
