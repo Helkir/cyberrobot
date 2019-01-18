@@ -40,7 +40,7 @@ class Dog(arcade.Sprite):
 
 class Cyberbot(arcade.Window):
     """ Main application class. """
-                                     ƒ
+
     def __init__(self):
         """ Initializer """
         # Call the parent class initializer
@@ -88,13 +88,6 @@ class Cyberbot(arcade.Window):
             bloc.center_y = 16
             self.bloc_list.append(bloc)
 
-        for i in range(1500):
-            bloc = arcade.Sprite('Image/textures/ground.png', SPRITE_SCALE)
-            bloc.center_x = i * SPRITE_SCALE * 16
-            bloc.center_y = 16
-            self.bloc_list.append(bloc)
-
-            
         self.player = arcade.AnimatedWalkingSprite()
         self.robot = arcade.AnimatedWalkingSprite()
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,

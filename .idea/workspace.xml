@@ -15,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="96" column="12" selection-start-line="96" selection-start-column="12" selection-end-line="96" selection-end-column="12" />
+            <state relative-caret-position="152">
+              <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
               <folding>
                 <element signature="e#164#177#0" expanded="true" />
               </folding>
@@ -48,10 +48,10 @@
       <find>player</find>
       <find>all_sprites</find>
       <find>robo</find>
-      <find>robot</find>
       <find>moro</find>
       <find>pace</find>
       <find>lazer_sound</find>
+      <find>robot</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -250,8 +250,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="96" column="12" selection-start-line="96" selection-start-column="12" selection-end-line="96" selection-end-column="12" />
+        <state relative-caret-position="152">
+          <caret line="89" lean-forward="true" selection-start-line="89" selection-end-line="89" />
           <folding>
             <element signature="e#164#177#0" expanded="true" />
           </folding>
