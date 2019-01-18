@@ -17,7 +17,7 @@ SPRITE_SCALING_LASER = 0.15
 BULLET_SPEED = 10
 VIEWPORT_MARGIN = 40
 
-BULLET_SPEED = 5
+BULLET_SPEED = 30
 MOVEMENT_SPEED = 5
 JUMP_SPEED = 8
 GRAVITY = 0.5
@@ -40,7 +40,7 @@ class Dog(arcade.Sprite):
 
 class Cyberbot(arcade.Window):
     """ Main application class. """
-
+                                     ƒ
     def __init__(self):
         """ Initializer """
         # Call the parent class initializer
@@ -88,6 +88,13 @@ class Cyberbot(arcade.Window):
             bloc.center_y = 16
             self.bloc_list.append(bloc)
 
+        for i in range(1500):
+            bloc = arcade.Sprite('Image/textures/ground.png', SPRITE_SCALE)
+            bloc.center_x = i * SPRITE_SCALE * 16
+            bloc.center_y = 16
+            self.bloc_list.append(bloc)
+
+            
         self.player = arcade.AnimatedWalkingSprite()
         self.robot = arcade.AnimatedWalkingSprite()
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,
@@ -245,9 +252,9 @@ class Cyberbot(arcade.Window):
         if key == arcade.key.V:
             arcade.sound.play_sound(self.lazer_sound)
             bullet = arcade.Sprite("Image/Sprite/Laser.png", SPRITE_SCALING_LASER)
-            bullet.center_x = self.player.center_x + 150
+            bullet.center_x = self.player.center_x + 130
             bullet.center_y = self.player.center_y + 20
-            bullet.change_x = BULLET_SPEED   
+            bullet.change_x = BULLET_SPEED
 
 
             self.bullet_list.append(bullet)
