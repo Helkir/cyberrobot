@@ -80,6 +80,7 @@ class Cyberbot(arcade.Window):
         self.all_sprites_list = arcade.SpriteList()
         self.player_sprite = arcade.SpriteList()
         self.bloc_list = arcade.SpriteList()
+        self.robot_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
 
         for i in range(1500):
@@ -89,17 +90,86 @@ class Cyberbot(arcade.Window):
             self.bloc_list.append(bloc)
 
         self.player = arcade.AnimatedWalkingSprite()
-        self.robot = arcade.AnimatedWalkingSprite()
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player,
                                                              self.bloc_list,
                                                              gravity_constant=GRAVITY)
-        character_scale = 2
         robot_scale = 0.15
+
+        for i in range(50):
+            robot = arcade.AnimatedWalkingSprite()
+             
+            robot.walk_right_textures = []
+            robot.walk_right_textures.append(arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_000.png",
+                                                                      scale = robot_scale, mirrored= True))
+            robot.stand_right_textures = []
+
+            robot.stand_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_000.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_001.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_002.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_003.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_004.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_005.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_006.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_007.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_008.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_009.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_010.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_011.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_012.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_013.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_014.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_015.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_016.png",
+                                    scale=robot_scale, mirrored= True))
+            robot.walk_right_textures.append(
+                arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_017.png",
+                                    scale=robot_scale, mirrored= True))
+
+            robot.center_x = i * SPRITE_SCALE * 1000
+            robot.center_y = 115
+            self.robot_list.append(robot)
+
+            
+        character_scale = 2
         self.player.stand_right_textures = []
         self.player.stand_right_textures.append(arcade.load_texture("Image/Sprite/Dog/Chien_stand.png",
                                                                     scale=character_scale))
 
         # Gestion des Sprites des robots
+        self.robot = arcade.AnimatedWalkingSprite()
         self.robot.walk_right_textures = []
         self.robot.walk_right_textures.append(arcade.load_texture("Image/Sprite/Robot_PNG/PNG_Animations/Robot1/06_Attack/Attack_000.png",
                                                                   scale = robot_scale, mirrored= True))
@@ -211,14 +281,17 @@ class Cyberbot(arcade.Window):
         self.bullet_list.draw()
         self.all_sprites_list.draw()
         self.bloc_list.draw()
+        self.robot_list.draw()
 
     def update(self, delta_time):
         """ Movement and game logic """
         self.bullet_list.update()
-            
+        self.bloc_list.update()
         self.all_sprites_list.update()
         self.all_sprites_list.update_animation()
         self.physics_engine.update()
+        self.robot_list.update()
+        self.robot_list.update_animation()
         # --- Manage Scrolling ---
 
         # Track if we need to change the viewport
@@ -231,6 +304,24 @@ class Cyberbot(arcade.Window):
 
         self.player.change_x = 2.5
         self.robot.change_x = 0.1
+        for robot in self.robot_list:
+            robot.texture_change_distance = 0.5
+            robot.change_x = 0.1
+
+        for bullet in self.bullet_list:
+             # Check this bullet to see if it hit a coin
+             hit_list = arcade.check_for_collision_with_list(bullet, self.robot_list)
+
+             # If it did, get rid of the bullet
+             if len(hit_list) > 0:
+                bullet.kill()
+
+             for robot in hit_list:
+                 robot.kill()
+                 arcade.sound.play_sound(self.hitmarker_sound)
+
+             if bullet.right > SCREEN_WIDTH+self.view_left:
+                 bullet.kill()
 
     # Song activation
         if self.mute == 0:
@@ -257,8 +348,6 @@ class Cyberbot(arcade.Window):
 
         if key == arcade.key.SPACE:
             self.player.change_y = -MOVEMENT_SPEED
-        if key == arcade.key.V:
-            self.bullet.kill()
 
 
 def main():
